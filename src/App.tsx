@@ -4,7 +4,6 @@ import Header from './components/Header';
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
 import CategoryFilter from './components/CategoryFilter';
-import ProductExporter from './components/ProductExporter';
 import { products } from './data/products';
 import { categories } from './data/categories';
 import type { Product, CartItem } from './types';
@@ -75,7 +74,6 @@ function App() {
 
       <section id="products" className="products-section">
         <h2 className="section-title">Featured Products</h2>
-        <ProductExporter />
         <CategoryFilter
           categories={categories}
           selectedCategoryId={selectedCategoryId}
