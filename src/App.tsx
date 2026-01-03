@@ -1,49 +1,24 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import './App.css';
-import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
-import ProductCardSkeleton from './components/ProductCardSkeleton';
 import Cart from './components/Cart';
 import CategoryFilter from './components/CategoryFilter';
-import { api } from './utils/api';
-import type { Product, CartItem, Category } from './types';
+import { products } from './data/products';
+import { categories } from './data/categories';
+import type { Product, CartItem } from './types';
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  // 写死只显示 Electronics 和 Accessories 两个分类
-  const [categories] = useState<Category[]>([
-    { id: 7, name: 'Electronics' },
-    { id: 8, name: 'Accessories' },
-  ]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // 获取产品数据（根据选中的分类）
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const fetchedProducts = await api.getProducts(selectedCategoryId || undefined);
-        setProducts(fetchedProducts);
-      } catch (err) {
-        setError('Failed to load products. Please try again later.');
-        console.error('Error fetching products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [selectedCategoryId]);
 
   const filteredProducts = useMemo(() => {
-    return products;
-  }, [products]);
+    if (selectedCategoryId === null) {
+      return products;
+    }
+    return products.filter((product) => product.categoryId === selectedCategoryId);
+  }, [selectedCategoryId]);
 
   const handleAddToCart = (product: Product) => {
     setCartItems((prevItems) => {
@@ -85,67 +60,54 @@ function App() {
   };
 
   return (
-    <AuthProvider>
-      <div className="app">
-        <Header cartItems={cartItems} onCartClick={() => setIsCartOpen(true)} />
-        
-        <section id="home" className="hero">
-          <div className="hero-content">
-            <h1 className="animate-fadeIn">Welcome to the Future of Shopping</h1>
-            <p className="animate-fadeIn" style={{ animationDelay: '0.2s' }}>
-              Discover premium products with cutting-edge design and exceptional quality
-            </p>
-          </div>
-        </section>
+    <div className="app">
+      <Header cartItems={cartItems} onCartClick={() => setIsCartOpen(true)} />
+      
+      <section id="home" className="hero">
+        <div className="hero-content">
+          <h1 className="animate-fadeIn">Welcome to the Future of Shopping</h1>
+          <p className="animate-fadeIn" style={{ animationDelay: '0.2s' }}>
+            Discover premium products with cutting-edge design and exceptional quality
+          </p>
+        </div>
+      </section>
 
-        <section id="products" className="products-section">
-          <h2 className="section-title">Featured Products</h2>
-          <CategoryFilter
-            categories={categories}
-            selectedCategoryId={selectedCategoryId}
-            onCategoryChange={setSelectedCategoryId}
-          />
-          {error ? (
-            <div className="no-products">
-              <p style={{ color: '#fca5a5' }}>{error}</p>
-            </div>
+      <section id="products" className="products-section">
+        <h2 className="section-title">Featured Products</h2>
+        <CategoryFilter
+          categories={categories}
+          selectedCategoryId={selectedCategoryId}
+          onCategoryChange={setSelectedCategoryId}
+        />
+        <div className="products-grid">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product, index) => (
+              <div
+                key={product.id}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <ProductCard
+                  product={product}
+                  onAddToCart={handleAddToCart}
+                />
+              </div>
+            ))
           ) : (
-            <div className="products-grid">
-              {loading ? (
-                // 显示骨架屏
-                Array.from({ length: 6 }).map((_, index) => (
-                  <ProductCardSkeleton key={`skeleton-${index}`} />
-                ))
-              ) : filteredProducts.length > 0 ? (
-                filteredProducts.map((product, index) => (
-                  <div
-                    key={product.id}
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <ProductCard
-                      product={product}
-                      onAddToCart={handleAddToCart}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="no-products">
-                  <p>No products found in this category.</p>
-                </div>
-              )}
+            <div className="no-products">
+              <p>No products found in this category.</p>
             </div>
           )}
-        </section>
+        </div>
+      </section>
 
-        <Cart
-          isOpen={isCartOpen}
-          cartItems={cartItems}
-          onClose={() => setIsCartOpen(false)}
-          onUpdateQuantity={handleUpdateQuantity}
-          onRemoveItem={handleRemoveItem}
-        />
-      </div>
-    </AuthProvider>
+      <Cart
+        isOpen={isCartOpen}
+        cartItems={cartItems}
+        onClose={() => setIsCartOpen(false)}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+      />
+    </div>
   );
 }
 

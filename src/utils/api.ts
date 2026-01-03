@@ -1,8 +1,4 @@
-import type { User, Product } from '../types';
-
-// 在开发环境中使用 Vite 代理，生产环境使用环境变量或直接 URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.DEV ? '/api' : 'http://localhost:8080');
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 export interface LoginRequest {
   email: string;
@@ -17,6 +13,12 @@ export interface RegisterRequest {
 
 export interface LoginResponse {
   token: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
 }
 
 export interface ApiError {
@@ -92,43 +94,6 @@ class ApiClient {
       method: 'POST',
       credentials: 'include',
     });
-  }
-
-  // Products API
-  async getProducts(categoryId?: number): Promise<Product[]> {
-    const url = categoryId 
-      ? `/products?categoryId=${categoryId}`
-      : '/products';
-    const products = await this.request<Array<{
-      id: number;
-      name: string;
-      description: string;
-      price: number;
-      categoryId: number | null;
-      imageUrl: string;
-    }>>(url);
-    
-    // 转换 imageUrl 为 image 以匹配前端类型
-    return products.map(p => ({
-      ...p,
-      image: p.imageUrl,
-    }));
-  }
-
-  async getProduct(id: number): Promise<Product> {
-    const product = await this.request<{
-      id: number;
-      name: string;
-      description: string;
-      price: number;
-      categoryId: number | null;
-      imageUrl: string;
-    }>(`/products/${id}`);
-    
-    return {
-      ...product,
-      image: product.imageUrl,
-    };
   }
 }
 
