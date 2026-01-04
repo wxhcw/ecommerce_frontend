@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
+# E-commerce Frontend (React + TypeScript + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository is a small example e-commerce frontend built with Vite, React and TypeScript. It demonstrates a simple product listing, category filtering and a minimal shopping cart to illustrate component structure and basic state interactions.
 
-Currently, two official plugins are available:
+Project goals: provide a compact, runnable frontend sample for learning component composition, state management, and simple API integration.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Key features
+- Product listing using local sample data ([src/data/products.ts](src/data/products.ts))
+- Category filtering (`CategoryFilter`)
+- Product card component (`ProductCard`)
+- Simple shopping cart (`Cart`)
+- Example login form (`Login`)
 
-## React Compiler
+Tech stack
+- Framework: React
+- Language: TypeScript
+- Dev/build: Vite
+- Styling: plain CSS (global styles in `src`)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Quick start
 
-## Expanding the ESLint configuration
+Prerequisites: Node.js (recommended 16+) and npm or yarn.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Install dependencies:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+# or
+yarn
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
+# or
+yarn dev
 ```
+
+Build for production:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+Preview production build locally:
+
+```bash
+npm run preview
+# or
+yarn preview
+```
+
+Available scripts
+- `dev`: start Vite dev server
+- `build`: create production build
+- `preview`: preview the built output
+
+Check `package.json` for any additional scripts such as linting or formatting.
+
+Project structure (short)
+
+- `index.html` — app entry HTML
+- `src/main.tsx` — React bootstrap
+- `src/App.tsx` — root application component
+- `src/components/` — reusable UI components
+  - [src/components/Header.tsx](src/components/Header.tsx) — header and cart trigger
+  - [src/components/ProductCard.tsx](src/components/ProductCard.tsx) — product display card
+  - [src/components/Cart.tsx](src/components/Cart.tsx) — shopping cart UI and interactions
+  - [src/components/CategoryFilter.tsx](src/components/CategoryFilter.tsx) — category filter
+  - [src/components/Login.tsx](src/components/Login.tsx) — example login form
+- `src/data/` — local sample data (`products.ts`, `categories.ts`)
+- `src/contexts/` — React Contexts (if present)
+- `src/utils/api.ts` — small API helper used in examples
+
+Main files reference
+- [src/components/Header.tsx](src/components/Header.tsx)
+- [src/components/ProductCard.tsx](src/components/ProductCard.tsx)
+- [src/data/products.ts](src/data/products.ts)
+
+Development notes
+- To connect a real backend, replace the sample data import and update `src/utils/api.ts` as needed.
+- Possible enhancements: localStorage persistence for cart, checkout flow, product detail pages, pagination and tests.
+
+Contributing & license
+- Contributions are welcome — consider opening an issue to discuss larger changes first.
+- This project does not include an explicit license file; treat it as a learning/example project.
+
+---
+
+If you want, I can also:
+1) Verify or add `dev`/`build` scripts in `package.json` if they are missing.
+2) Add screenshots or a short demo GIF to this README.
+3) Provide an English-to-Chinese translation or add more detailed component docs.
+
+Tell me which next step you prefer.
