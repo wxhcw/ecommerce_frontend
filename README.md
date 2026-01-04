@@ -4,20 +4,20 @@ This repository is a small example e-commerce frontend built with Vite, React an
 
 Project goals: provide a compact, runnable frontend sample for learning component composition, state management, and simple API integration.
 
-Key features
+## Key features
 - Product listing using local sample data ([src/data/products.ts](src/data/products.ts))
 - Category filtering (`CategoryFilter`)
 - Product card component (`ProductCard`)
 - Simple shopping cart (`Cart`)
 - Example login form (`Login`)
 
-Tech stack
+## Tech stack
 - Framework: React
 - Language: TypeScript
 - Dev/build: Vite
 - Styling: plain CSS (global styles in `src`)
 
-Quick start
+## Quick start
 
 Prerequisites: Node.js (recommended 16+) and npm or yarn.
 
@@ -60,7 +60,7 @@ Available scripts
 
 Check `package.json` for any additional scripts such as linting or formatting.
 
-Project structure (short)
+## Project structure (short)
 
 - `index.html` — app entry HTML
 - `src/main.tsx` — React bootstrap
@@ -87,12 +87,3 @@ Development notes
 Contributing & license
 - Contributions are welcome — consider opening an issue to discuss larger changes first.
 - This project does not include an explicit license file; treat it as a learning/example project.
-
----
-
-If you want, I can also:
-1) Verify or add `dev`/`build` scripts in `package.json` if they are missing.
-2) Add screenshots or a short demo GIF to this README.
-3) Provide an English-to-Chinese translation or add more detailed component docs.
-
-Tell me which next step you prefer.
